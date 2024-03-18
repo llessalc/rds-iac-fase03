@@ -90,19 +90,32 @@ resource "aws_vpc_security_group_ingress_rule" "allow_node_group" {
 #### DB
 ###############
 
+resource "aws_db_parameter_group" "db_param_group" {
+  name   = "rds-pg"
+  family = "mysql8.0"
+
+  parameter {
+    apply_method = "pending-reboot"
+    name         = "lower_case_table_names"
+    value        = "1"
+  }
+
+}
+
 
 resource "aws_db_instance" "db_instance" {
   allocated_storage     = 10 #GB
   max_allocated_storage = 20
   db_name               = "mydb"
   engine                = "mysql"
-  engine_version        = "5.7"
+  engine_version        = "8.0"
   instance_class        = "db.t3.micro"
   username              = var.username
   password              = var.password
-  parameter_group_name  = "default.mysql5.7"
+  parameter_group_name  = aws_db_parameter_group.db_param_group.name
   skip_final_snapshot   = true
   publicly_accessible   = false
+  apply_immediately     = true
 
   # Assign this instance to a specific VPC
   db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name
