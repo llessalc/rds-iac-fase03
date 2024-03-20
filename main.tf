@@ -4,6 +4,20 @@
 # Here, we will create two new private subnets
 # inside a existing VPC and assign them to
 # the RDS instance.
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.39"
+    }
+  }
+ 
+  required_version = ">= 1.2.0"
+}
+ 
+provider "aws" {
+  region = "us-east-1a"
+}
 
 data "aws_subnets" "db_subnets" {
 
