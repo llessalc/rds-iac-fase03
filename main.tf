@@ -16,7 +16,7 @@ terraform {
 }
  
 provider "aws" {
-  region = "us-east-1a"
+  region = "us-east-1"
 }
 
 data "aws_subnets" "db_subnets" {
