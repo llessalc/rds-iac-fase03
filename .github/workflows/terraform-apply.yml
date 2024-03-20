@@ -9,8 +9,7 @@ env:
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "${{ secrets.TF_WORKSPACE }}"
   CONFIG_DIRECTORY: "./"
-  TF_VAR_username: "${{ secrets.USERNAME }}"
-  TF_VAR_password: "${{ secrets.PASSWORD }}"
+
 
 jobs:
   terraform-apply:
@@ -36,9 +35,7 @@ jobs:
         with:
           workspace: ${{ env.TF_WORKSPACE }}
           configuration_version: ${{ steps.apply-upload.outputs.configuration_version_id }}
-        env:
-          TF_VAR_username: ${{ env.TF_VAR_username }}
-          TF_VAR_password: ${{ env.TF_VAR_password }}
+
 
       - name: Executa Apply
         uses: hashicorp/tfc-workflows-github/actions/apply-run@v1.0.0
